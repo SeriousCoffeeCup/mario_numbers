@@ -126,7 +126,7 @@ def mario_number(level):
     """
     "*** YOUR CODE HERE ***"
     # Case: Level doesn't exist
-    if len(level) == 0: # or == 1 
+    if len(level) == 1: # ==  0 or == 1 depending on the system you intend 
         return 0
         # Is not necessary. It won't break the rest of the code.
     
@@ -135,9 +135,30 @@ def mario_number(level):
     if 'PP' in level:
         return 0
 
-    if level[0] == 'P':
-        return 1 + mario_number(level[1:])
-    elif level[0] == ' ':
+    # Jump =: move forward 2 spots
+        # Minimal of 3 needed in sequence still
+            # If yes, then, can jump
+                # If P in middle of 1st 3 characters, then Jump only. 1 path.
+                    # P cannot start or terminate a level string -> implement this check later?   **
+                # Else, then can step forward twice OR jump
+                    # 2 paths alternative to each other 
+                    # This.... does this add to the paths? Or doesn't it... multiplies the existing path by 2?
+                    # Oh... We multiply, not add.
+        # level[2:] means move forward by 2 slices 
+    # Step =: move forward 1 spot
+        # Minimal of 1 in sequence 
+        # level[1:] means move forward by 1 slice 
+    
+    # Len >= 3 means can Jump
+    if len(level) >= 3: 
+        if level[0] + level[1] + level[2] == ' P ':
+            return 1 + mario_number(level[2:]) # The issue for later is if we denote this with a + 1 or + 0 
+        else:
+            return 2 + mario_number(level[2:])
+        
+        
+    # if can get here, then, 
+    if level[0] == ' ':
         return 2 + mario_number(level[1:])
     else: 
         return 0
