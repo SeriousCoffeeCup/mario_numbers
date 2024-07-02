@@ -128,13 +128,11 @@ def mario_number(level):
     # Base Case: Came to end of level
     if len(level) <= 1: # ==  0 or == 1 depending on the system you intend 
         # return 0 # return identity value, 1 for multiplicative counting and 0 for additive counting 
-        return 1 
-        # Add checker later for 
+        return 1  # Branching factor is 1
     
     # If there's characters other than space and P
         # str.make(trans()) -> check if str empty or ig just iterate through and return 0 if so, but... too much work    
-    if 'PP' in level:
-        return 0
+
 
     # Jump =: move forward 2 spots
         # Minimal of 3 needed in sequence still
@@ -150,14 +148,25 @@ def mario_number(level):
         # Minimal of 1 in sequence 
         # level[1:] means move forward by 1 slice 
     
+    # level sequence cannot start or end on P.
+        # If P at start, Mario has been eaten.
+        # If P at end, this is an impossible level, with no safe space to stand at the end.
+    # level cannot have 'PP' . Can't jump over nor step over. Placed into short-circuit position to minimize such calculations.
+    if level[0] == 'P' or level[-1] == 'P' or  'PP' in level:
+        return 0
+    
     # Len >= 3 means can Jump
     if len(level) >= 3: 
         if level[0] + level[1] + level[2] == ' P ':
-            return 1 * mario_number(level[2:]) # The issue for later is if we denote this with a + 1 or + 0 
-        else:
+            return 1 * mario_number(level[2:]) # The issue for later is if we denote this with a + 1 or + 0
+        else: # Empty plains 
             # return 2 * mario_number(level[2:]) # What about stepping forward once and then jumping?
                 #  Thus, this is not perfectly modular.
-        
+            return 2 * mario_number(level[1:])
+                # It is not possible to step forward once more after being mid-jump...
+                    # Maybe it is easier if I modularize this somehow...
+    else:
+        return 1 * mario_number(level[1:]) # Doesn't matter 1: or 2:. We're near the end already.
         
     # if can get here, then, elif same as if 
     # if level[0] == ' ':
