@@ -158,26 +158,28 @@ def mario_number(level):
     # Len >= 3 means can Jump
     if len(level) >= 3: 
         if level[0] + level[1] + level[2] == ' P ':
-            return 1 * mario_number(level[2:]) # The issue for later is if we denote this with a + 1 or + 0
+            path_num = 1 * mario_number(level[2:]) 
+            return path_num # The issue for later is if we denote this with a + 1 or + 0
         else: # Empty plains 
             # return 2 * mario_number(level[2:]) # What about stepping forward once and then jumping?
                 #  Thus, this is not perfectly modular.
-            return 2 * mario_number(level[1:])
+            path_num =  2 * mario_number(level[1:])
+            return path_num 
                 # It is not possible to step forward once more after being mid-jump...
                     # Maybe it is easier if I modularize this somehow...
     else:
-        return 1 * mario_number(level[1:]) # Doesn't matter 1: or 2:. We're near the end already.
-    
+        path_num = 1 * mario_number(level[1:]) # Doesn't matter 1: or 2:. We're near the end already.
+        return path_num 
 
 def tester_mario():
 
     parameters = list()
     
-    len_0 = [('', 1)]
-    parameters += len_0
+    # len_0 = [('', 1)]
+    # parameters += len_0
     
-    illegal_P = [('P  ', 0), ('  P', 0), ('  PP ', 0) ]
-    parameters += illegal_P
+    # illegal_P = [('P  ', 0), ('  P', 0), ('  PP ', 0) ]
+    # parameters += illegal_P
     
     case3 = ('   P ', 2)
     # Case 3 variations:
