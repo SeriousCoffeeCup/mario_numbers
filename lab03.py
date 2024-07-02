@@ -172,7 +172,7 @@ def mario_number(level):
     # if level[0] == ' ':
     #     return 2 + mario_number(level[1:])
     # else: 
-    #     return 0
+    #     return 0 
 
 def tester_mario():
     parameters = [' P ']
