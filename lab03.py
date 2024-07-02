@@ -124,12 +124,7 @@ def mario_number(level):
     >>> mario_number('   P    P P   P  P P    P     P ')
     180
     """
-    "*** YOUR CODE HERE ***"
-    # Base Case: Came to end of level
-    if len(level) <= 1: # ==  0 or == 1 depending on the system you intend 
-        # return 0 # return identity value, 1 for multiplicative counting and 0 for additive counting 
-        return 1  # Branching factor is 1
-    
+    "*** YOUR CODE HERE ***"    
     # If there's characters other than space and P
         # str.make(trans()) -> check if str empty or ig just iterate through and return 0 if so, but... too much work    
 
@@ -147,6 +142,11 @@ def mario_number(level):
     # Step =: move forward 1 spot
         # Minimal of 1 in sequence 
         # level[1:] means move forward by 1 slice 
+    
+    # Base Case: Came to end of level
+    if len(level) <= 1: # ==  0 or == 1 depending on the system you intend 
+        # return 0 # return identity value, 1 for multiplicative counting and 0 for additive counting 
+        return 1  # Branching factor is 1
     
     # level sequence cannot start or end on P.
         # If P at start, Mario has been eaten.
@@ -167,18 +167,30 @@ def mario_number(level):
                     # Maybe it is easier if I modularize this somehow...
     else:
         return 1 * mario_number(level[1:]) # Doesn't matter 1: or 2:. We're near the end already.
-        
-    # if can get here, then, elif same as if 
-    # if level[0] == ' ':
-    #     return 2 + mario_number(level[1:])
-    # else: 
-    #     return 0
+    
 
 def tester_mario():
-    parameters = [' P ']
-    expected = [1]
+
+    parameters = list()
+    
+    len_0 = [('', 1)]
+    parameters += len_0
+    
+    illegal_P = [('P  ', 0), ('  P', 0), ('  PP ', 0) ]
+    parameters += illegal_P
+    
+    case3 = ('   P ', 2)
+    # Case 3 variations:
+    # step step jump _ _ 
+    # or 
+    # jump _ jump _ _
+    parameters += [ (' P ', 1), ('   ', 2), case3]
+    
+    provided_doctests = [(' P P ', 1), (' P P  ', 1), ('  P P ', 1), ('   P P ', 2), (' P PP ', 0), ('    ', 3), ('    P    ', 9), ('   P    P P   P  P P    P     P ', 180)]
+    parameters += provided_doctests
+
     for index, p in enumerate(parameters):
-        print(f"n : {p} : {mario_number(p)} : Expected: {expected[index]}")
+        print(f"{index} : n : {p} : {mario_number(p[0])} : Expected: {p[1]}")
 tester_mario()
 
 def max_subseq(n, t):
