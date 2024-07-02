@@ -88,12 +88,15 @@ def make_onion(f, g):
     return can_reach
 
 def tester_make_onion():
+    print()
     parameters = [(5, 25, 4), (5, 25, 3), (1, 1, 0)]
     expected = [True, False, True]
-    up = lambda x : 3*x + 1 # if odd 
-    down = lambda x : x // 2 # if even 
+    up = lambda x : x + 1
+    double = lambda x : x * 2 
     for index, i in enumerate(parameters):
-        print(f"n : {i} : {double_eights(i)} : Expected: {expected[index]}")
+        can_reach = make_onion(up, double)
+        print(f"n : {i} : {can_reach(i[0], i[1], i[2] )} : Expected: {expected[index]}")
+# tester_make_onion()
 
 def mario_number(level):
     """Return the number of ways that Mario can perform a sequence of steps
