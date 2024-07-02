@@ -101,7 +101,11 @@ def tester_make_onion():
 def mario_number(level):
     """Return the number of ways that Mario can perform a sequence of steps
     or jumps to reach the end of the level without ever landing in a Piranha
-    plant. Assume that every level begins and ends with a space.
+    plant. 
+        if P then J
+        if _ then S or J
+        if PP then 0, cannot traverse
+    Assume that every level begins and ends with a space.
 
     >>> mario_number(' P P ')   # jump, jump
     1
@@ -121,7 +125,22 @@ def mario_number(level):
     180
     """
     "*** YOUR CODE HERE ***"
+    # Case: Level doesn't exist
+    if len(level) == 0:
+        return 0
+        # Is not necessary. It won't break the rest of the code.
+    
+    # If there's characters other than space and P
+        # str.make(trans()) -> check if str empty or ig just iterate through and return 0 if so, but... too much work    
+    if 'PP' in level:
+        return 0
 
+    if level[0] == 'P':
+        return 1 + mario_number(level[1:])
+    elif level[0] == ' ':
+        return 2 + mario_number(level[1:])
+    else: 
+        return 0
 
 def max_subseq(n, t):
     """
