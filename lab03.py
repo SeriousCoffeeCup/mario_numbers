@@ -23,8 +23,35 @@ def double_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    EIGHT = 8
+    # check type 
+    
+    # negative numbers...
+    # if n < 0:
+    #     n *=1 # we're only interested in individual digits. Division would flip flop operations below.
+    
+    # Decimal digits, bother with or not?
+    
+    left_bound = 10
+    last_digit = 11 # take care of base case : a digit can only be 9 or greater, so, pick any 2 digit integer to start off with
+    
+    # Retrieve 2 digits in a row instead of do just 1 
+    if n > left_bound:
+        curr_digit = (n % (left_bound **2 ))  // left_bound # Guess I'll have to draw out my expectations for absolutely everything, by hand, before I run the program
+        last_digit = (n % left_bound) 
+        if (curr_digit == last_digit) and (curr_digit == EIGHT) and isinstance(curr_digit, int):
+            return True 
+        else:
+            return double_eights( (n // left_bound))
+    
+    return False
 
-
+def tester_double_eights():
+    parameters = [1288, 880, 538835, 284682, 588138, 78]
+    expected = [True, True, True, False, True, False]
+    for index, i in enumerate(parameters):
+        print(f"n : {i} : {double_eights(i)} : Expected: {expected[index]}")
+# tester_double_eights()
 
 def make_onion(f, g):
     """Return a function can_reach(x, y, limit) that returns
@@ -52,13 +79,21 @@ def make_onion(f, g):
     """
     def can_reach(x, y, limit):
         if limit < 0:
-            return ____
+            return False # by the time we hit this, the search is over
         elif x == y:
-            return ____
+            return True # True automatically, when question is "can x reach y"
         else:
-            return can_reach(____, ____, limit - 1) or can_reach(____, ____, limit - 1)
+            return can_reach(f(x), y, limit - 1) or can_reach(g(x), y, limit - 1)
+            # Branches out like a tree, left or right, f or g 
     return can_reach
 
+def tester_make_onion():
+    parameters = [(5, 25, 4), (5, 25, 3), (1, 1, 0)]
+    expected = [True, False, True]
+    up = lambda x : 3*x + 1 # if odd 
+    down = lambda x : x // 2 # if even 
+    for index, i in enumerate(parameters):
+        print(f"n : {i} : {double_eights(i)} : Expected: {expected[index]}")
 
 def mario_number(level):
     """Return the number of ways that Mario can perform a sequence of steps
