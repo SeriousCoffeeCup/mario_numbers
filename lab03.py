@@ -126,7 +126,7 @@ def mario_number(level):
     """
     "*** YOUR CODE HERE ***"
     # Case: Level doesn't exist
-    if len(level) == 0:
+    if len(level) == 0: # or == 1 
         return 0
         # Is not necessary. It won't break the rest of the code.
     
@@ -141,6 +141,13 @@ def mario_number(level):
         return 2 + mario_number(level[1:])
     else: 
         return 0
+
+def tester_mario():
+    parameters = [' P ']
+    expected = [1]
+    for index, p in enumerate(parameters):
+        print(f"n : {p} : {mario_number(p)} : Expected: {expected[index]}")
+tester_mario()
 
 def max_subseq(n, t):
     """
