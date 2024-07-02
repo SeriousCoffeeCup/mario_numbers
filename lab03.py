@@ -125,10 +125,11 @@ def mario_number(level):
     180
     """
     "*** YOUR CODE HERE ***"
-    # Case: Level doesn't exist
-    if len(level) == 1: # ==  0 or == 1 depending on the system you intend 
-        return 0
-        # Is not necessary. It won't break the rest of the code.
+    # Base Case: Came to end of level
+    if len(level) <= 1: # ==  0 or == 1 depending on the system you intend 
+        # return 0 # return identity value, 1 for multiplicative counting and 0 for additive counting 
+        return 1 
+        # Add checker later for 
     
     # If there's characters other than space and P
         # str.make(trans()) -> check if str empty or ig just iterate through and return 0 if so, but... too much work    
@@ -152,16 +153,17 @@ def mario_number(level):
     # Len >= 3 means can Jump
     if len(level) >= 3: 
         if level[0] + level[1] + level[2] == ' P ':
-            return 1 + mario_number(level[2:]) # The issue for later is if we denote this with a + 1 or + 0 
+            return 1 * mario_number(level[2:]) # The issue for later is if we denote this with a + 1 or + 0 
         else:
-            return 2 + mario_number(level[2:])
+            # return 2 * mario_number(level[2:]) # What about stepping forward once and then jumping?
+                #  Thus, this is not perfectly modular.
         
         
-    # if can get here, then, 
-    if level[0] == ' ':
-        return 2 + mario_number(level[1:])
-    else: 
-        return 0
+    # if can get here, then, elif same as if 
+    # if level[0] == ' ':
+    #     return 2 + mario_number(level[1:])
+    # else: 
+    #     return 0
 
 def tester_mario():
     parameters = [' P ']
