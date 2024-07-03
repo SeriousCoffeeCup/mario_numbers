@@ -1,5 +1,13 @@
 def main():
+    """
+    QUESTION 3 MARIO NUMBERS START
+    """
+    
+    """
+    PHASE 1
+    """
     def factorial(n):
+        """factorials function. Avoiding all library use."""
         if n <= 1:
             return 1
         return n * factorial(n-1)
@@ -19,6 +27,32 @@ def main():
         for i in range(10):
             print(f"{i} : {cascading_sum(i)}")
 
+    """
+    PHASE 2: Fitting in Jumps
+    """
+    def max_jumps_in_space(max_space):
+        # How many 3 can fit into this n?
+        # num_J = n // 3
+        if max_space <= 0 :
+            return 0
+        
+        num_J = (max_space-1) // 2
+        # This is BOTH max jumps _and_ max # of possible defectors that defect from J to SS
+        #   is equal to loops needed to count all combinatorics
+        
+        return num_J
+
+    def max_jumps_in_steps(max_steps):
+        if max_steps <= 0:
+            return 0
+        num_J = (max_steps) // 2
+        
+        return num_J 
+    
+    
+    """
+    PHASE 3 : Combinatorics
+    """
     def permu_torics(n, r, ignore_order = False):
         # Out of n, choose r
         top = factorial(n)
@@ -43,7 +77,9 @@ def main():
                 print(f"{n}, {r} : {permu_torics(n, r)}")
 
     def permu_multiset(J, S):
-        # Num of possible orderings of n letters of J and r letters of S
+        """
+        Num of possible orderings of n letters of J and r letters of S
+        """
         top = factorial( (J + S) )
         bottom = factorial(J) * factorial(S)
         
@@ -52,28 +88,6 @@ def main():
         if (perm - (int(perm)) == 0.0):
             perm = int(perm)
         return perm 
-    
-
-
-
-    def max_jumps_in_space(max_space):
-        # How many 3 can fit into this n?
-        # num_J = n // 3
-        if max_space <= 0 :
-            return 0
-        
-        num_J = (max_space-1) // 2
-        # This is BOTH max jumps _and_ max # of possible defectors that defect from J to SS
-        #   is equal to loops needed to count all combinatorics
-        
-        return num_J
-
-    def max_jumps_in_steps(max_steps):
-        if max_steps <= 0:
-            return 0
-        num_J = (max_steps) // 2
-        
-        return num_J 
 
     def tester_permu_multiset():
         print("permu_multiset")
@@ -88,7 +102,9 @@ def main():
                 print(f"Space: {n},  Jumps: {j_num}, Steps: {steps} : {permu_multiset(j_num, steps)}")
     # tester_permu_multiset()        
         
-    
+    """
+    PHASE 4: Permutations of Pure Grass
+    """
     def pure_grass_mario_num(total_space = 7, debugging_view = False):
         paths = 0
         
@@ -113,11 +129,21 @@ def main():
         # for n in range(total_space + 1):
         space = 5
         for n in range(space + 1):
-            print(f"Space {n} : Predicted {pure_grass_mario_num(n)}")
+            print(f"Space {n} : Predicted {pure_grass_mario_num(n, debugging_view=True)}")
+    test_plains()
+    
 
+    """
+    PHASE 5: Piranha Plants are Multiplication Marks:   3-orderings P 3-orderings = 9 => 3 * 3 = 9 
+    """
+    
     
     def readable_level(level):
-        # g or G for grass
+        """
+        g or G for grass
+        
+        Ain't nobody can read empty spaces.
+        """
         return level.replace(' ', 'G')
     
     
@@ -239,15 +265,20 @@ def main():
             
             print(f"{index} : {readable_level(p[0])} : {mario_nums_w_p(p[0])} : Expected: {p[1]}")
     tester_mario()
+    """
+    QUESTION 3 MARIO NUMBERS END
+    """
     
 if __name__ == "__main__":
     main()
     
 """
-g or G = grass aka Space
-s or S = step 
-P = plan
-J = jump, which only works on GPG
+Q3 Brute Force Examples
+
+g or G =: grass aka Space
+s or S =: step 
+P =: piranha plant
+J =: jump, which works on GPG but S does not.
 
 G
     1 
@@ -263,13 +294,13 @@ GGG
     jump
 
 GGGG
-    SSSS
+    SSS
     JS
     SJ
     3
 
 GGGGG
-    SSSSS
+    SSSS
     
     JJ
     
@@ -359,25 +390,6 @@ SSS
 6 orderings on both sides 
 + 1 jump in middle
 
-
-Oh wait 
-Are they multiplicative?
-Hm.
-
-SSS J SSS
-SSS J SJ
-SSS J JS 
-
-SJ J SSS
-SJ J SJ
-SJ J JS 
-
-JS J SSS
-JS J SJ
-JS J JS 
-
-Ah.
-3 x 3  = 9
 
 Oh wait 
 Are they multiplicative?
