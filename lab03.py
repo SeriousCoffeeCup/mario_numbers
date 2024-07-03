@@ -99,6 +99,10 @@ def tester_make_onion():
 # tester_make_onion()
 """
 QUESTION 3 MARIO NUMBERS START
+
+I focused a little too hard on this and out came this solution.
+Should have been a recursion tree solution, I know.
+This is more discrete math-like.
 """
 
 """
@@ -552,37 +556,45 @@ def max_subseq(n, t):
         
         index_sorted = 0
         last_1st_index = index_sorted 
-        highest_digits_indices = list() 
-        while (len(highest_digits_indices) < t):
-            """
-            1st pass, find indices of all highest digits.
-            
-            It must be somewhere.
-            If there aren't enough digits to its right, however, then disqualify it.
-            
-            There could be multiple instances of the digit. But that would show up on the sorted_list, so index+= 1 is fine.
-            
-            
-            """
-            
-            for unsorted_index, num in enumerate(unsorted_digit_list):
-                if num == sorted_digits[index_sorted]:
-                    if len(unsorted_digit_list[unsorted_index::]) < t:
-                        """
-                        If there are not enough digits to the right to complete a full subsequence, then don't bother.
-                        """
-                        continue
-                    else:
-                        highest_digits_indices.append(unsorted_index) # Bookmark that highest number 
-                    index_sorted += 1 # Highest digit found. Moving to 2nd highest digit
-                    
-                    
-                    
-                    
-                if index_sorted >= len(unsorted_digit_list):
-                    print("How did we get out of range? Ahhh")
-                    break
-            
+        highest_digit_indices = list() 
+        # while (len(highest_digits_indices) < t):
+        """
+        1st pass, find indices of all highest digits.
+        
+        It must be somewhere.
+        If there aren't enough digits to its right, however, then disqualify it.
+        
+        There could be multiple instances of the digit. But that would show up on the sorted_list, so index+= 1 is fine.
+        
+        
+        """
+        
+        for unsorted_index, num in enumerate(unsorted_digit_list):
+            if num == sorted_digits[index_sorted]:
+                if len(unsorted_digit_list[unsorted_index::]) < t:
+                    """
+                    If there are not enough digits to the right to complete a full subsequence, then don't bother.
+                    """
+                    pass # because index_sorted must += 1
+                else:
+                    highest_digit_indices.append(unsorted_index) # Bookmark that highest number 
+                index_sorted += 1 # Highest digit found. Moving to 2nd highest digit
+
+            if index_sorted >= len(unsorted_digit_list):
+                print("How did we get out of range? Ahhh")
+                break
+        
+        """
+        All indices of valid highest digit placement found, after 1st pass.
+        """
+        highest_subseq = [(unsorted_digit_list[idx] * 10) + unsorted_digit_list[idx+1] for idx in highest_digit_indices]
+        # for idx in highest_digit_indices:
+        """
+        Construct number 
+        Check t length 
+        """
+            # (unsorted_digit_list[idx] * 10) + unsorted_digit_list[idx+1]
+        
         
     subseq_max = subseq_builder(digit_list, t)
     
