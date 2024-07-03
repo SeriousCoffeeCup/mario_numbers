@@ -24,22 +24,28 @@ def main():
     #         print(f"{n}, {r} : {combinatorics(n, r)}")
 
 
+    def jump_number(n):
+        # How many 3 can fit into this n?
+        # num_J = n // 3
+        if n <= 0 :
+            return 0
+        
+        num_J = (n-1) // 2
+        # This is BOTH max jumps _and_ loops needed to count all combinatorics
+        
+        starting_pos_num = (n % 3) + 1
+        # Wait but then, combinatorics...
+        return num_J * starting_pos_num
+
     print("Mario Numbers")
     def mario_number_predicter(n):
         # Assuming just spaces for now
-        def jump_number(n):
-            # How many 3 can fit into this n?
-            num_J = n // 3
-            # This is BOTH max jumps _and_ loops needed to count all combinatorics
-            
-            starting_pos_num = (n % 3) + 1
-            # Wait but then, combinatorics...
-            return num_J * starting_pos_num
+
         
         return 1 + jump_number(n)
 
     for n in range(8):
-        print(f"{n} : {mario_number_predicter(n)}")
+        print(f"{n} : {mario_number_predicter(n)} : {jump_number(n)}")
 
 if __name__ == "__main__":
     main()
