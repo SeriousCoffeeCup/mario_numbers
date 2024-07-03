@@ -327,6 +327,39 @@ def mario_number(level):
     
     Total Orderings = 5
     
+    On Plants:
+        How do piranha plants interact with this?
+    
+    Well.
+    
+    They just split up grasslands.
+    
+    GPG only has 1 path over it -> J.
+    
+    GGGGPGGGG
+    -> becomes
+    SSS J SSS 
+    
+    SSS -> JS or SJ
+    
+    So:
+    
+    SSS J SSS
+    SSS J SJ
+    SSS J JS 
+
+    SJ J SSS
+    SJ J SJ
+    SJ J JS 
+
+    JS J SSS
+    JS J SJ
+    JS J JS 
+    
+    To get all permutations of GGGGPGGGG, multiply permutations of GGGG by permutations of GGGG.
+    3 * 3 = 9.
+    
+    Future work: use proof by induction and etc to mathematically prove all this work.
     
     """
     # Translate to readable
