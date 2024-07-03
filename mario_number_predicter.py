@@ -74,18 +74,28 @@ def main():
             for j_num in range(max_j + 1):
                 steps = n - ((2*j_num) +1)
                 print(f"Space: {n},  Jumps: {j_num}, Steps: {steps} : {permu_multiset(j_num, steps)}")
-    tester_permu_multiset()        
+    # tester_permu_multiset()        
         
     
-    def mario_number_predicter(n):
-        # Assuming just spaces for now
+    def pure_plains_mario_number_predicter(total_space = 7):
+        paths = 0
+        for n in range(total_space + 1):
+            print(f"n {n}")
+            max_j = max_jumps(n)
+            for j_num in range(max_j + 1):
+                steps = n - ((2*j_num) +1)
+                
+                orderings = permu_multiset(j_num, steps)
+                
+                print(f"Space: {n},  Jumps: {j_num}, Steps: {steps} : {orderings}")
+                paths += orderings
 
-        
-        return 1 + max_jumps(n) # + (jump_number(n) * jump_torics(n))
+        return paths
     
-    # print("Mario Numbers")
+    print("Mario Numbers")
     # for n in range(8):
-        # print(f"{n} : {mario_number_predicter(n)} : {max_jumps(n)}")
+    check = 8
+    print(f"{check} : {pure_plains_mario_number_predicter(check)}")
 
 if __name__ == "__main__":
     main()
