@@ -4,18 +4,20 @@ def main():
             return 1
         return n * factorial(n-1)
 
-    # print("Factorials")
-    # for i in range(10):
-    #     print(f"{i} : {factorial(i)}")
+    def test_factorials():
+        print("Factorials")
+        for i in range(10):
+            print(f"{i} : {factorial(i)}")
     
     def cascading_sum(n):
         if n <= 1:
             return 1
         return n + cascading_sum(n-1)
 
-    # print("cascading_sum")
-    # for i in range(10):
-    #     print(f"{i} : {cascading_sum(i)}")
+    def test_cascading_sum():
+        print("cascading_sum")
+        for i in range(10):
+            print(f"{i} : {cascading_sum(i)}")
 
     def permu_torics(n, r, ignore_order = False):
         # Out of n, choose r
@@ -32,12 +34,13 @@ def main():
             combos = int(combos)
         return combos 
     
-    # print("permu_torics")
-    # for n in range(1, 10):
-    #     for r in range (1, 4):
-    #         if r > n:
-    #             continue
-    #         print(f"{n}, {r} : {permu_torics(n, r)}")
+    def test_permu_torics():
+        print("permu_torics")
+        for n in range(1, 10):
+            for r in range (1, 4):
+                if r > n:
+                    continue
+                print(f"{n}, {r} : {permu_torics(n, r)}")
 
     def permu_multiset(J, S):
         # Num of possible orderings of n letters of J and r letters of S
@@ -79,47 +82,104 @@ def main():
         
         for n in range(total_space + 1):
             print(f"n {n}")
-            max_j = max_jumps_in_space(n) # This is kinda roundabout and not soclearly correct
+            max_j = max_jumps_in_space(n) # This is kinda roundabout and not so clearly correct
             for j_num in range(max_j + 1):
                 steps = n - ((2*j_num) +1)
                 print(f"Space: {n},  Jumps: {j_num}, Steps: {steps} : {permu_multiset(j_num, steps)}")
     # tester_permu_multiset()        
         
     
-    def pure_plains_mario_number_predicter(total_space = 7):
+    def pure_grass_mario_num(total_space = 7, debugging_view = False):
         paths = 0
         
+        max_steps = total_space - 1
         max_j = max_jumps_in_space(total_space)
         
+        # Tiers of Jumps num, from 0 jumps to max Jumps 
         for j_num in range(max_j + 1):
-            steps = total_space - ((2*j_num) +1) # This can't be accurate. // Floor division is a destructive arithmetical step.
+            steps = max_steps - (2*j_num)  # Steps logic cleared up
             
             orderings = permu_multiset(j_num, steps)
             paths += orderings
-            print(f"Space: {total_space},  Jumps: {j_num}, Steps: {steps} : Orderings {orderings}")
             
-        print(f"Paths: {paths}")
+            if debugging_view:
+                print(f"Space: {total_space},  Jumps: {j_num}, Steps: {steps} : Orderings {orderings}")
+        
+        if debugging_view:
+            print(f"Paths: {paths}")
         return paths
     
     def test_plains():
-        print("Mario Numbers")
         # for n in range(total_space + 1):
-        space = 4
+        space = 5
         for n in range(space + 1):
-            print(f"{n} : {pure_plains_mario_number_predicter(n)}")
-        
+            print(f"Space {n} : Predicted {pure_grass_mario_num(n)}")
+
+    
     def readable_level(level):
         # g for grass
         return level.replace(' ', 'g')
     
+    
+    def mario_nums_w_p(level):
+        # Translate to readable
+        if ' ' in level:
+            level = readable_level(level)
+        print(level)
+        # break up the sequence
+        def split_level(level):
+            # Split method https://www.w3schools.com/python/ref_string_split.asp 
+            return level.split('P')
+        level_list = split_level(level)
+        
+        # Convert to numbers
+        def convert_lvl_to_num(level_l):
+            # array of predetermined size - this is faster than append
+            seg_sizes = [1] * len(level_l)
+            
+            for index, element in enumerate(level_l):
+                seg_sizes[index] = len(element)
+            
+            return seg_sizes
+        
+        seg_sizes = convert_lvl_to_num(level_list)
+        print(level_list)
+        print(seg_sizes)
+        """
+        Example:
+        ' P  P   P    P     P'
+        gPggPgggPggggPgggggP
+        ['g', 'gg', 'ggg', 'gggg', 'ggggg', '']
+        [1, 2, 3, 4, 5, 0]
+        
+        Most interestingly, edge occupied by P becomes 0 automatically.
+        If we multiply these factors now, product would be 0.
+        However, P hugging an edge is illegal.
+        So, coincidentally, this might actually be wanted behavior.
+        More processing ado, though.
+        
+        """
+        
+
+    
+    def tester_mwp():
+        # mario_nums_w_p(' P ')
+        # mario_nums_w_p('  P  ')
+        # mario_nums_w_p('  P   P ')
+        mario_nums_w_p(' P  P   P    P     P')
+    
+    tester_mwp()
+    
+    
+    
     def tester_mario():
         parameters = list()
         
-        # len_0 = [('', 1)]
-        # parameters += len_0
+        len_0 = [('', 1)]
+        parameters += len_0
         
-        # illegal_P = [('P  ', 0), ('  P', 0), ('  PP ', 0) ]
-        # parameters += illegal_P
+        illegal_P = [('P  ', 0), ('  P', 0), ('  PP ', 0) ]
+        parameters += illegal_P
         
         case3 = ('   P ', 2)
         # Case 3 variations:
@@ -131,13 +191,13 @@ def main():
         provided_doctests = [(' P P ', 1), (' P P  ', 1), ('  P P ', 1), ('   P P ', 2), (' P PP ', 0), ('    ', 3), ('    P    ', 9), ('   P    P P   P  P P    P     P ', 180)]
         parameters += provided_doctests
 
-        # for index, p in enumerate(parameters):
-            # print(f"{index} : n : {p} : {mario_number(p[0])} : Expected: {p[1]}")
-            # print(f"{index} : {readable_level(p[0])} : Original: '{p[0]}'")
-            # spaces = len(p[0])
-            # print(f"{index} : {readable_level(p[0])} : {pure_plains_mario_number_predicter(spaces)} : Expected: {p[1]}")
+        for index, p in enumerate(parameters):
+            print(f"{index} : n : {p} : {mario_number(p[0])} : Expected: {p[1]}")
+            print(f"{index} : {readable_level(p[0])} : Original: '{p[0]}'")
+            spaces = len(p[0])
+            print(f"{index} : {readable_level(p[0])} : {pure_grass_mario_num(spaces)} : Expected: {p[1]}")
     # tester_mario()
-    # print(pure_plains_mario_number_predicter(4))
+    # print(pure_grass_mario_num(4))
 
 if __name__ == "__main__":
     main()
@@ -233,8 +293,93 @@ GG GG GG GG
     SJSJJ
     SSJJS
 
-GG GG P GG GG 
+
+GG GG GG GG 
+    JJSSS
+    JJSJS
+    JJSSJ
+    JSJJS
+    JSJSJ
+    JSSJJ
+    SJJJS
+    SJJSS
+    SJSJJ
+    SSJJS
+
+ggggPgggg
+
 SSS J SSS
 
+4 spaces -> 3 orderings
+SJ
+JS
+SSS
+
+6 orderings on both sides 
++ 1 jump in middle
+
+
+Oh wait 
+Are they multiplicative?
+Hm.
+
+SSS J SSS
+SSS J SJ
+SSS J JS 
+
+SJ J SSS
+SJ J SJ
+SJ J JS 
+
+JS J SSS
+JS J SJ
+JS J JS 
+
+Ah.
+3 x 3  = 9
+
+Oh wait 
+Are they multiplicative?
+Hm.
+
+SSS J SSS
+SSS J SJ
+SSS J JS 
+
+SJ J SSS
+SJ J SJ
+SJ J JS 
+
+JS J SSS
+JS J SJ
+JS J JS 
+
+Ah.
+3 x 3  = 9
+
+gggPggggPgPgggPggPgPggggPgggggPg
+
+ggg 3  :  2
+P
+gggg 4  : 3
+P
+g 1   : 1
+P
+ggg 3   : 2
+P
+gg 2   : 1
+P 
+g 1   : 1
+P
+gggg 4   : 3
+P
+ggggg 5   : 5
+P
+g 1   : 1
+
+2 * 3 * 2 * 3 * 5 
+2 * 3 * 3 * 10 
+2 * 9 * 10 
+18 * 10 
 
 """
