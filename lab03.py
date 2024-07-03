@@ -550,57 +550,94 @@ def max_subseq(n, t):
     
     
     def subseq_builder(unsorted_digit_list, t):
-        sorted_digits = unsorted_digit_list
-        sorted_digits.sort(reverse=True)
-        print(sorted_digits)
-        
-        index_sorted = 0
-        last_1st_index = index_sorted 
-        highest_digit_indices = list() 
-        # while (len(highest_digits_indices) < t):
         """
-        1st pass, find indices of all highest digits.
+        1st pass, take highest digit and find all its instances in unsorted.
         
-        It must be somewhere.
-        If there aren't enough digits to its right, however, then disqualify it.
+        If there aren't enough digits to its right, however, then disqualify it, until all of the max number is found.
         
         There could be multiple instances of the digit. But that would show up on the sorted_list, so index+= 1 is fine.
         
-        
         """
+        """
+        Find highest digit's indices
+        """
+        highest_digit = max(unsorted_digit_list)
+        instances_of_HD = [ (index, digit) for index, digit in enumerate(unsorted_digit_list) if ((digit == highest_digit) and (  len(unsorted_digit_list[index::]) >= t  ))]
+        print(instances_of_HD)
         
-        for unsorted_index, num in enumerate(unsorted_digit_list):
-            if num == sorted_digits[index_sorted]:
-                if len(unsorted_digit_list[unsorted_index::]) < t:
-                    """
-                    If there are not enough digits to the right to complete a full subsequence, then don't bother.
-                    """
-                    pass # because index_sorted must += 1
-                else:
-                    highest_digit_indices.append(unsorted_index) # Bookmark that highest number 
-                index_sorted += 1 # Highest digit found. Moving to 2nd highest digit
+        contender_lists = [unsorted_digit_list[c[0]::] for c in instances_of_HD]
+        print(contender_lists)
+        
+        modded_contender_lists = list()
+        for ct in contender_lists:
+            for _ in range( len(ct) - t ):
+                ct.remove(min(ct))
+            print(f"Resulting CT {ct}")
+            modded_contender_lists.append(ct)
+        
+        print(f"Modded CT List {modded_contender_lists}")
+        
+        ct_values = list()
+        for element in modded_contender_lists:
+            ct_value = 0
+            for indx, ele in enumerate(element[::-1]):
+                ct_value += (ele * (10 ** indx))
+            ct_values.append(ct_value)
+        # print(ct_values)
+        return (max(ct_values))
+        # sorted_digits = unsorted_digit_list
+        # sorted_digits.sort(reverse=True)
+        # print(sorted_digits)
+        
+        # index_sorted = 0
+        # highest_digit_indices = list() 
+        # # while (len(highest_digits_indices) < t):
 
-            if index_sorted >= len(unsorted_digit_list):
-                print("How did we get out of range? Ahhh")
-                break
+        # max_digit = max(sorted_digits)
+        # for unsorted_index, num in enumerate(unsorted_digit_list):
+        #     if num == sorted_digits[index_sorted]:
+        #         if len(unsorted_digit_list[unsorted_index::]) < t:
+        #             """
+        #             If there are not enough digits to the right to complete a full subsequence, then don't bother.
+        #             """
+        #             pass # because index_sorted must += 1
+        #         else:
+        #             highest_digit_indices.append(unsorted_index) # Bookmark that highest number 
+                
+                
+        #         # Do we continue?
+        #         highest_digit = 
+        #         index_sorted += 1 # Highest digit found. Moving to 2nd highest digit
+
+        #     if index_sorted >= len(unsorted_digit_list):
+        #         print("How did we get out of range? Ahhh")
+        #         break
         
         """
         All indices of valid highest digit placement found, after 1st pass.
         """
-        highest_subseq = [(unsorted_digit_list[idx] * 10) + unsorted_digit_list[idx+1] for idx in highest_digit_indices]
-        # for idx in highest_digit_indices:
+        # Now, we can sift through for the next largest numbers.
+        # print(highest_digit_indices)
+        
+        
+        
         """
         Construct number 
         Check t length 
         """
-            # (unsorted_digit_list[idx] * 10) + unsorted_digit_list[idx+1]
+        # highest_subseq = [(unsorted_digit_list[idx] * 10) + unsorted_digit_list[idx+1] for idx in highest_digit_indices]
+        # print(highest_subseq)
         
+        # Do ties exist?
+        # If yes, then continue onto next
         
     subseq_max = subseq_builder(digit_list, t)
     
     
 def test_subseq():
-    print(f"Max: {max_subseq(876594321, 2)}")
+    # print(f"Max: {max_subseq(876594321, 2)}")
+    # print(f"Max: {max_subseq(879365943219, 2)}")
+    print(f"Max: {max_subseq(879365943219, 3)}")
 test_subseq()
 
 
