@@ -552,16 +552,37 @@ def max_subseq(n, t):
         
         index_sorted = 0
         last_1st_index = index_sorted 
-        subseq_prime = list() 
-        while (len(subseq_prime) < t):
+        highest_digits_indices = list() 
+        while (len(highest_digits_indices) < t):
+            """
+            1st pass, find indices of all highest digits.
+            
+            It must be somewhere.
+            If there aren't enough digits to its right, however, then disqualify it.
+            
+            There could be multiple instances of the digit. But that would show up on the sorted_list, so index+= 1 is fine.
+            
+            
+            """
+            
             for unsorted_index, num in enumerate(unsorted_digit_list):
                 if num == sorted_digits[index_sorted]:
-                    subseq_prime.append
-                    index_sorted += 1 # moving to 2nd highest digit
+                    if len(unsorted_digit_list[unsorted_index::]) < t:
+                        """
+                        If there are not enough digits to the right to complete a full subsequence, then don't bother.
+                        """
+                        continue
+                    else:
+                        highest_digits_indices.append(unsorted_index) # Bookmark that highest number 
+                    index_sorted += 1 # Highest digit found. Moving to 2nd highest digit
+                    
+                    
+                    
+                    
                 if index_sorted >= len(unsorted_digit_list):
-                    continue
+                    print("How did we get out of range? Ahhh")
+                    break
             
-            # If len(subseq_prime) < t: then highest undiscovered digit must be to the left of the highest digit
         
     subseq_max = subseq_builder(digit_list, t)
     
