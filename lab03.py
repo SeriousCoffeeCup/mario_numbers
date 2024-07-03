@@ -511,6 +511,43 @@ def max_subseq(n, t):
     5
     """
     "*** YOUR CODE HERE ***"
+    # Rule out illegal cases?
+    if t > n:
+        t = n
+        return n
+    
+    
+    
+    # Check type
+    if n < 0:
+        n *=1 
+    
+    def decimal_remover(n):
+        """
+        Lots of small precision errors from floating point arithmetic can exist here. This had to be super careful.
+        """
+        decimal_factor = 1
+        while (((n * decimal_factor) % 1) != 0 ):
+            decimal_factor *= 10
+        
+        return n * decimal_factor
+    n = decimal_remover(n)
+    
+    # Idea: define left_bound and right_bound, and use // and % to capture numbers
+    debugging_list = list() #[-1] * t
+    
+    i = 1
+    right_bound = 10 ** i 
+    left_bound = 10 ** t
+    print(f"Left: {left_bound} : Right: {right_bound}")
+    if right_bound != 0:
+        n = n // right_bound
+    seq = n % left_bound
+    print(f"n {n}  seq {seq}")
+    
+def test_subseq():
+    max_subseq(12345, 4)
+test_subseq()
 
 
 def is_prime(n):
