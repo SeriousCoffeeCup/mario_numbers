@@ -516,58 +516,36 @@ def max_subseq(n, t):
         t = n
         return n
     
-    
+    if t == 0:
+        return 0
     
     # Check type
     if n < 0:
         n *=1 
     
-    def decimal_remover(n):
+    # Make a list of the digits 
+    def convert_to_digits(n):
         """
-        Lots of small precision errors from floating point arithmetic can exist here. This had to be super careful.
+        n becomes list of digits  
         """
-        decimal_factor = 1
-        while (((n * decimal_factor) % 1) != 0 ):
-            decimal_factor *= 10
-        
-        return n * decimal_factor
-    n = decimal_remover(n)
+        digit_horde = list()
+        left_bound = 10
+        while n > 0:
+            digit = (n % left_bound)
+            digit_horde.append(digit)
+            n = n // left_bound
+        return digit_horde
+    digit_list = convert_to_digits(n)
+    # print(digit_list)
     
-    # Idea: define left_bound and right_bound, and use // and % to capture numbers
-    subseq_list = list() #[-1] * t
+    sorted_digits = digit_list
+    sorted_digits.sort(reverse=True)
+    print(sorted_digits)
     
-    i = 0
-    while True:
-        right_bound = 10 ** i 
-        left_bound = 10 ** t
-        # print(f"Left: {left_bound} : Right: {right_bound}")
-        
-        i += 1
-        
-        if right_bound == 0:
-            continue # Shouldn't happen though.
-        
-        n_trun = n // right_bound
-        seq = n_trun % left_bound
-        # print(f"seq {seq}")
-        subseq_list.append(seq)
-        
-        
-        #leftmost digit is now a 0
-        if n_trun < (10 ** (t-1)):
-            break
-        
-        if n <= 0:
-            break
-    
-    
-    # for d in subseq_list:
-    #     print(d)
-    return max(subseq_list)
     
 def test_subseq():
-    print(f"Max: {max_subseq(12345, 2)}")
-# test_subseq()
+    print(f"Max: {max_subseq(123454321, 2)}")
+test_subseq()
 
 
 def is_prime(n):
