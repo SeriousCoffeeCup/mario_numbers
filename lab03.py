@@ -544,9 +544,9 @@ def max_subseq(n, t):
         digit_horde = digit_horde[::-1]
             # Starting from leftmost digits, of greatest magnitutde, makes sure each highest digit is on the "leftmost" possible
         return digit_horde
-    print(n)
+    # print(n)
     digit_list = convert_to_digits(n)
-    print(digit_list)
+    # print(digit_list)
     
     
     def subseq_builder(unsorted_digit_list, t):
@@ -561,21 +561,31 @@ def max_subseq(n, t):
         """
         Find highest digit's indices
         """
-        highest_digit = max(unsorted_digit_list)
-        instances_of_HD = [ (index, digit) for index, digit in enumerate(unsorted_digit_list) if ((digit == highest_digit) and (  len(unsorted_digit_list[index::]) >= t  ))]
-        print(instances_of_HD)
+        sorted_digits = list(unsorted_digit_list)
+        sorted_digits.sort(reverse=True)
+        # print(sorted_digits)
+        
+        instances_of_HD = list()
+        sorted_index = 0
+        while (len(instances_of_HD) == 0):
+            # highest_digit = max(unsorted_digit_list)
+            highest_digit = sorted_digits[sorted_index]
+            instances_of_HD = [ (index, digit) for index, digit in enumerate(unsorted_digit_list) if ((digit == highest_digit) and (  len(unsorted_digit_list[index::]) >= t  ))]
+            # print(instances_of_HD)
+            
+            sorted_index+=1
         
         contender_lists = [unsorted_digit_list[c[0]::] for c in instances_of_HD]
-        print(contender_lists)
+        # print(contender_lists)
         
         modded_contender_lists = list()
         for ct in contender_lists:
             for _ in range( len(ct) - t ):
                 ct.remove(min(ct))
-            print(f"Resulting CT {ct}")
+            # print(f"Resulting CT {ct}")
             modded_contender_lists.append(ct)
         
-        print(f"Modded CT List {modded_contender_lists}")
+        # print(f"Modded CT List {modded_contender_lists}")
         
         ct_values = list()
         for element in modded_contender_lists:
@@ -585,60 +595,16 @@ def max_subseq(n, t):
             ct_values.append(ct_value)
         # print(ct_values)
         return (max(ct_values))
-        # sorted_digits = unsorted_digit_list
-        # sorted_digits.sort(reverse=True)
-        # print(sorted_digits)
-        
-        # index_sorted = 0
-        # highest_digit_indices = list() 
-        # # while (len(highest_digits_indices) < t):
-
-        # max_digit = max(sorted_digits)
-        # for unsorted_index, num in enumerate(unsorted_digit_list):
-        #     if num == sorted_digits[index_sorted]:
-        #         if len(unsorted_digit_list[unsorted_index::]) < t:
-        #             """
-        #             If there are not enough digits to the right to complete a full subsequence, then don't bother.
-        #             """
-        #             pass # because index_sorted must += 1
-        #         else:
-        #             highest_digit_indices.append(unsorted_index) # Bookmark that highest number 
-                
-                
-        #         # Do we continue?
-        #         highest_digit = 
-        #         index_sorted += 1 # Highest digit found. Moving to 2nd highest digit
-
-        #     if index_sorted >= len(unsorted_digit_list):
-        #         print("How did we get out of range? Ahhh")
-        #         break
-        
-        """
-        All indices of valid highest digit placement found, after 1st pass.
-        """
-        # Now, we can sift through for the next largest numbers.
-        # print(highest_digit_indices)
-        
-        
-        
-        """
-        Construct number 
-        Check t length 
-        """
-        # highest_subseq = [(unsorted_digit_list[idx] * 10) + unsorted_digit_list[idx+1] for idx in highest_digit_indices]
-        # print(highest_subseq)
-        
-        # Do ties exist?
-        # If yes, then continue onto next
-        
     subseq_max = subseq_builder(digit_list, t)
-    
+    return subseq_max
     
 def test_subseq():
     # print(f"Max: {max_subseq(876594321, 2)}")
     # print(f"Max: {max_subseq(879365943219, 2)}")
-    print(f"Max: {max_subseq(879365943219, 3)}")
-test_subseq()
+    # print(f"Max: {max_subseq(879365943219, 3)}")
+    # print(f"Max: {max_subseq(8793659543219, 4)}")
+    print(f"Max: {max_subseq(20225, 3)}")
+# test_subseq()
 
 
 def is_prime(n):
