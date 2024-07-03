@@ -117,15 +117,17 @@ def main():
 
     
     def readable_level(level):
-        # g for grass
-        return level.replace(' ', 'g')
+        # g or G for grass
+        return level.replace(' ', 'G')
     
     
-    def mario_nums_w_p(level):
+    def mario_nums_w_p(level):        
         # Translate to readable
         if ' ' in level:
             level = readable_level(level)
-        print(level)
+        # print(level)
+        
+        
         # break up the sequence
         def split_level(level):
             # Split method https://www.w3schools.com/python/ref_string_split.asp 
@@ -133,7 +135,7 @@ def main():
         level_list = split_level(level)
         
         # Convert to numbers
-        def convert_lvl_to_num(level_l):
+        def convert_lvl_to_size(level_l):
             # array of predetermined size - this is faster than append
             seg_sizes = [1] * len(level_l)
             
@@ -142,9 +144,9 @@ def main():
             
             return seg_sizes
         
-        seg_sizes = convert_lvl_to_num(level_list)
-        print(level_list)
-        print(seg_sizes)
+        seg_sizes = convert_lvl_to_size(level_list)
+        # print(level_list)
+        # print(seg_sizes)
         """
         Example:
         ' P  P   P    P     P'
@@ -157,8 +159,45 @@ def main():
         However, P hugging an edge is illegal.
         So, coincidentally, this might actually be wanted behavior.
         More processing ado, though.
+        """
+        # f one edge is zero. return 0
+        if (seg_sizes[0] == 0) or (seg_sizes[-1] == 0):
+            return 0
+        
+        def find_product(factors_list):
+            prod = 1
+            for factor in factors_list:
+                prod *= factor 
+            return prod
+        
+        # The most elegant way of ruling out illegal cases:
+        if (find_product(seg_sizes) == 0):
+            return 0
+        """
+        Otherwise:
+        if level[0] == 'P' or level[-1] == 'P' or  'PP' in level:
+            return 0
+        
+        but on level length of 0 or 1, rightmost logic breaks, and thus needs a len() safeguard....
         
         """
+        
+        def convert_s_to_plains_num(total_spaces):
+            paths = [1] * len(total_spaces)
+            
+            for index, element in enumerate(total_spaces):
+                paths[index] = pure_grass_mario_num(element)
+            
+            return paths
+        orderings = convert_s_to_plains_num(seg_sizes)
+        
+        # print(orderings)
+        
+        mario_num = find_product(orderings)
+        # print(f"Mario Number: {mario_num} of {level}")
+        return mario_num
+        
+
         
 
     
@@ -166,9 +205,10 @@ def main():
         # mario_nums_w_p(' P ')
         # mario_nums_w_p('  P  ')
         # mario_nums_w_p('  P   P ')
-        mario_nums_w_p(' P  P   P    P     P')
+        # mario_nums_w_p(' P  P   P    P     P')
+        mario_nums_w_p(' P  P   P    P     P ')
     
-    tester_mwp()
+    # tester_mwp()
     
     
     
@@ -192,13 +232,14 @@ def main():
         parameters += provided_doctests
 
         for index, p in enumerate(parameters):
-            print(f"{index} : n : {p} : {mario_number(p[0])} : Expected: {p[1]}")
-            print(f"{index} : {readable_level(p[0])} : Original: '{p[0]}'")
-            spaces = len(p[0])
-            print(f"{index} : {readable_level(p[0])} : {pure_grass_mario_num(spaces)} : Expected: {p[1]}")
-    # tester_mario()
-    # print(pure_grass_mario_num(4))
-
+            # print(f"{index} : n : {p} : {mario_number(p[0])} : Expected: {p[1]}")
+            # print(f"{index} : {readable_level(p[0])} : Original: '{p[0]}'")
+            # spaces = len(p[0])
+            # print(f"{index} : {readable_level(p[0])} : {pure_grass_mario_num(spaces)} : Expected: {p[1]}")
+            
+            print(f"{index} : {readable_level(p[0])} : {mario_nums_w_p(p[0])} : Expected: {p[1]}")
+    tester_mario()
+    
 if __name__ == "__main__":
     main()
     
