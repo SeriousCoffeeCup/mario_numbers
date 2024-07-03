@@ -512,8 +512,9 @@ def max_subseq(n, t):
     """
     "*** YOUR CODE HERE ***"
     # Rule out illegal cases?
-    if t > n:
-        t = n
+    
+    if (10 ** t) > n:
+        # n has insufficient digits
         return n
     
     if t == 0:
@@ -534,17 +535,39 @@ def max_subseq(n, t):
             digit = (n % left_bound)
             digit_horde.append(digit)
             n = n // left_bound
+        
+        # Reverse slicing the list - just makes thinking easier
+        digit_horde = digit_horde[::-1]
+            # Starting from leftmost digits, of greatest magnitutde, makes sure each highest digit is on the "leftmost" possible
         return digit_horde
+    print(n)
     digit_list = convert_to_digits(n)
-    # print(digit_list)
+    print(digit_list)
     
-    sorted_digits = digit_list
-    sorted_digits.sort(reverse=True)
-    print(sorted_digits)
+    
+    def subseq_builder(unsorted_digit_list, t):
+        sorted_digits = unsorted_digit_list
+        sorted_digits.sort(reverse=True)
+        print(sorted_digits)
+        
+        index_sorted = 0
+        last_1st_index = index_sorted 
+        subseq_prime = list() 
+        while (len(subseq_prime) < t):
+            for unsorted_index, num in enumerate(unsorted_digit_list):
+                if num == sorted_digits[index_sorted]:
+                    subseq_prime.append
+                    index_sorted += 1 # moving to 2nd highest digit
+                if index_sorted >= len(unsorted_digit_list):
+                    continue
+            
+            # If len(subseq_prime) < t: then highest undiscovered digit must be to the left of the highest digit
+        
+    subseq_max = subseq_builder(digit_list, t)
     
     
 def test_subseq():
-    print(f"Max: {max_subseq(123454321, 2)}")
+    print(f"Max: {max_subseq(876594321, 2)}")
 test_subseq()
 
 
