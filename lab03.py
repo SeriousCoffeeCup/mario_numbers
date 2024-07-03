@@ -534,20 +534,40 @@ def max_subseq(n, t):
     n = decimal_remover(n)
     
     # Idea: define left_bound and right_bound, and use // and % to capture numbers
-    debugging_list = list() #[-1] * t
+    subseq_list = list() #[-1] * t
     
-    i = 1
-    right_bound = 10 ** i 
-    left_bound = 10 ** t
-    print(f"Left: {left_bound} : Right: {right_bound}")
-    if right_bound != 0:
-        n = n // right_bound
-    seq = n % left_bound
-    print(f"n {n}  seq {seq}")
+    i = 0
+    while True:
+        right_bound = 10 ** i 
+        left_bound = 10 ** t
+        # print(f"Left: {left_bound} : Right: {right_bound}")
+        
+        i += 1
+        
+        if right_bound == 0:
+            continue # Shouldn't happen though.
+        
+        n_trun = n // right_bound
+        seq = n_trun % left_bound
+        # print(f"seq {seq}")
+        subseq_list.append(seq)
+        
+        
+        #leftmost digit is now a 0
+        if n_trun < (10 ** (t-1)):
+            break
+        
+        if n <= 0:
+            break
+    
+    
+    # for d in subseq_list:
+    #     print(d)
+    return max(subseq_list)
     
 def test_subseq():
-    max_subseq(12345, 4)
-test_subseq()
+    print(f"Max: {max_subseq(12345, 2)}")
+# test_subseq()
 
 
 def is_prime(n):
