@@ -53,17 +53,24 @@ def main():
 
 
 
-    def max_jumps(n):
+    def max_jumps_in_space(max_space):
         # How many 3 can fit into this n?
         # num_J = n // 3
-        if n <= 0 :
+        if max_space <= 0 :
             return 0
         
-        num_J = (n-1) // 2
+        num_J = (max_space-1) // 2
         # This is BOTH max jumps _and_ max # of possible defectors that defect from J to SS
         #   is equal to loops needed to count all combinatorics
         
         return num_J
+
+    def max_jumps_in_steps(max_steps):
+        if max_steps <= 0:
+            return 0
+        num_J = (max_steps) // 2
+        
+        return num_J 
 
     def tester_permu_multiset():
         print("permu_multiset")
@@ -72,18 +79,20 @@ def main():
         
         for n in range(total_space + 1):
             print(f"n {n}")
-            max_j = max_jumps(n) # This is kinda roundabout and not soclearly correct
+            max_j = max_jumps_in_space(n) # This is kinda roundabout and not soclearly correct
             for j_num in range(max_j + 1):
                 steps = n - ((2*j_num) +1)
                 print(f"Space: {n},  Jumps: {j_num}, Steps: {steps} : {permu_multiset(j_num, steps)}")
-    tester_permu_multiset()        
+    # tester_permu_multiset()        
         
     
     def pure_plains_mario_number_predicter(total_space = 7):
         paths = 0
-        max_j = max_jumps(total_space)
+        
+        max_j = max_jumps_in_space(total_space)
+        
         for j_num in range(max_j + 1):
-            steps = total_space - ((2*j_num) +1)
+            steps = total_space - ((2*j_num) +1) # This can't be accurate. // Floor division is a destructive arithmetical step.
             
             orderings = permu_multiset(j_num, steps)
             paths += orderings
