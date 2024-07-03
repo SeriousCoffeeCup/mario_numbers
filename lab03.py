@@ -128,7 +128,9 @@ def mario_number(level):
     # If there's characters other than space and P
         # str.make(trans()) -> check if str empty or ig just iterate through and return 0 if so, but... too much work    
 
-
+    # Decide on how to model this first
+    # and then count 
+    
     # Jump =: move forward 2 spots
         # Minimal of 3 needed in sequence still
             # If yes, then, can jump
