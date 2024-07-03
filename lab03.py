@@ -286,7 +286,7 @@ def mario_number(level):
     P =: piranha plant
     J =: jump, which works on GPG but S does not.
     
-    All has only 1 path:
+    These have only 1 path:
         GPG
         GGPG
         GGPGGPG -> step jump jump
